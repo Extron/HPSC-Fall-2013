@@ -1,19 +1,27 @@
 
 CC = icc
 FC = ifort
-OPT = -02
+OPT = 
+EXE = triad
+OBJ = timing.o dummy.o triad.o
+
+all: $(EXE)
+
+$(EXE): $(OBJ)
+	$(FC) -o $(EXE)
+
+%.o: %.c
+	$(CC) $(OPT) -c $<
+
+%.o: %.f90
+	$(FC) $(OPT) -c $<
 
 build: timing.o dummy.o triad.f90
 	$(FC) $(OPT) timing.o dummy.o triad.f90 -o triad  
 
-timing.o: timing.c
-	$(CC) $(OPT) -c timing.c
-
-dummy.o: dummy.c
-	$(CC) $(OPT) -c dummy.c
-
 clean:
 	rm -f *.o
+	rm -f $(EXE)
 
 
 
